@@ -78,7 +78,6 @@ HERO_SVG = """
 def render_svg(svg_string):
     """Renders SVG string in Streamlit"""
     b64 = base64.b64encode(svg_string.encode('utf-8')).decode("utf-8")
-    # FIXED LINE BELOW: Used f-string to avoid % symbol conflict
     html = f'<img src="data:image/svg+xml;base64,{b64}" width="100%"/>'
     st.markdown(html, unsafe_allow_html=True)
 
@@ -111,3 +110,56 @@ def slide_manifesto():
         We are talking about **RŪH**.
         That raw, contagious, fire-in-your-belly energy.
         The kind that shifts the atmosphere when you walk in.
+        
+        **WE SHARE THE RŪH.**
+        Pass it on.
+        """, unsafe_allow_html=True)
+        
+        st.image("https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", caption="Industrial Soul")
+
+def slide_menu():
+    st.markdown('<div class="big-text" style="text-align:center;">THE <span class="highlight">LINEUP</span></div>', unsafe_allow_html=True)
+    st.write("---")
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("#### 🔥 THE GRIP (Wraps)")
+        st.markdown("**The OG Fire**\n\nSlow-roasted lamb shoulder, harissa heat, sumac onions, dripping with garlic toum.")
+    
+    with col2:
+        st.markdown("#### 🥣 THE STACK (Bowls)")
+        st.markdown("**Concrete Jungle**\n\nTurmeric pearl couscous base, charcoal chicken, roasted cauliflower, pomegranate molasses.")
+        
+    with col3:
+        st.markdown("#### 🍟 SIDE HUSTLE")
+        st.markdown("**Afterburner Fries**\n\nShoestring fries dusted in za'atar and Aleppo pepper, smothered in feta cream.")
+
+def slide_closing():
+    st.markdown("""
+    <div style="display: flex; justify-content: center; align-items: center; height: 60vh; flex-direction: column; text-align: center;">
+        <div class="big-text">YO-CHI OWNS THE LIGHT.</div>
+        <div class="big-text"><span class="highlight">WE OWN THE FIRE.</span></div>
+        <br><br>
+        <div class="sub-text">RŪH | COMING SOON</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# --- MAIN APP LOGIC ---
+
+# Slide Dictionary
+slides = [slide_hero, slide_manifesto, slide_menu, slide_closing]
+
+# Render Current Slide
+slides[st.session_state.slide]()
+
+# Navigation Controls (Bottom)
+st.write("---")
+c1, c2, c3 = st.columns([1, 8, 1])
+with c1:
+    if st.session_state.slide > 0:
+        st.button("PREV", on_click=prev_slide)
+with c3:
+    if st.session_state.slide < len(slides) - 1:
+        st.button("NEXT", on_click=next_slide)
+        
+       
